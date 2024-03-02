@@ -1,6 +1,9 @@
 from flask import Flask
 from flask import request
+from google.cloud import vision
+
 app = Flask(__name__)
+client = vision.Client()
 
 @app.route('/')
 def hello_world():
@@ -14,7 +17,3 @@ def test():
 def testpost():
     print(f'request: {request}')
     return f'hello {request.form}'
-
-
-
-
