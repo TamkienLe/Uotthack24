@@ -1,5 +1,8 @@
 import math
 
+# TODO:
+# make it so if a material tag says recycled, the scores are better
+
 brand = "zara"
 
 makeup = {
@@ -212,7 +215,7 @@ def material_footprint(materials):
     # outputted as kilograms of CO2 outputted per 2 square meters of raw material created
     footprint = {
         "cotton" : 8.3,
-        "acrylic_fabric" : 11.53,
+        "fabric" : 11.53,
         "linen" : 4.5,
         "nylon" : 7.31,
         "silk" : 7.63,
@@ -241,6 +244,26 @@ def shipping_footprint(country):
     
     return round((dist/800) * 0.6, 2)
 
-footprint = material_footprint(makeup) + shipping_footprint(coa)
+def water_usage(materials):
+    # for one average tshirt (L of water)
+    water_usage = {
+        'cotton' : 2700,
+        'polyester' : 350,
+        'silk' : 376,
+        'wool' : 18700,
+        'fabric' : 200,
+        'linen' : 6.4,
+        'nylon' : 600
+    }
+    
+    water_used = 0
+    
+    for k, v in materials.items():
+        water_used += water_usage[k] * (v / 100)
+        
+    return round(water_used, 2)
 
-print(footprint)
+footprint = material_footprint(makeup) + shipping_footprint(coa)
+water = water_usage(makeup)
+
+print(water_usage(makeup))
