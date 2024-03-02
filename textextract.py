@@ -1,5 +1,7 @@
 import constants
 
+gunk = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#%'
+
 testcase = '''
 MADE IN CHINA
 FABRIQUE EN CHINE
@@ -14,6 +16,36 @@ DOUBLURE DE CAPUCHE
 20% POLYESTER
 EXCLUSIVE OF DECORATION
 SANS DECORATION
+'''
+
+testcase2 = '''
+ADED
+LONDON
+DESIGNED IN LONDON
+MADE IN CHINA
+72% COTTON
+20% VISCOSE
+% POLYESTER
+HAND WASH
+NOT BEACH
+TUNAL DAY
+DO NOT OW
+NOT DRY CLEAR
+25 BAUMWOLLE
+OR VISCOSE
+6% POLYESTER
+PANASON
+SA
+CREAT.
+ZUN TROCK
+PARECER
+TAS COTON
+4900
+ten
+EDEN
+AUTRETEN
+RESTER
+MAINE
 '''
 
 def get_number(s):
@@ -62,7 +94,7 @@ def extract_content(s):
             print(val)
 
             if "RN" in val.upper():
-                val = val.strip("RNrn#F")
+                val = val.strip(gunk)
                 rnCandidate = get_number(val) 
 
                 if rnCandidate > 0:
@@ -81,7 +113,7 @@ def extract_content(s):
                     rn = rnCandidate
 
             if "CA" in val.upper():
-                val = val.strip("CAca#F")
+                val = val.strip(gunk)
                 caCandidate = get_number(val) 
 
                 if caCandidate > 0:
@@ -99,9 +131,12 @@ def extract_content(s):
                 if caCandidate > 0:
                     ca = caCandidate
 
-            
 
-
+            for material in constants.MATERIALS:
+                if material in val:
+                    percent = get_number(prev.strip(gunk))
+                    materials[material] = percent if percent > 0 else materials[material]
+                    
             prevWasRNKey = False
             prevWasCAKey = False
             prev = val
@@ -112,5 +147,8 @@ def extract_content(s):
     print("RN is: ", rn)
     print("CA is: ", ca)
 
+    for key in materials.keys():
+        print(key, ": ", materials[key])
 
-extract_content(testcase)
+
+extract_content(testcase2)

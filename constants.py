@@ -4,6 +4,8 @@ MATERIALS = [
     "NYLON",
     "SILK",
     "LEATHER", 
-    "WOOL"
+    "WOOL",
+    "VISCOSE",
+    
 ]
 
