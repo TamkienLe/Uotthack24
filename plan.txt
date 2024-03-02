@@ -1,1 +1,7 @@
-Capture an image of a tag or any identifying feature on a piece of clothing, and our product will retrieve information about the brand or possibly the specific product. It will provide insights into the brand's ethical practices and the carbon footprint associated with the actual product.
+Idea: Capture an image of a tag or any identifying feature on a piece of clothing, and our product will retrieve information about the brand or possibly the specific product. It will provide insights into the brand's ethical practices and the carbon footprint associated with the actual product.
+
+Key elements:
+
+- Mobile/web app to upload the image
+- Machine learning program to detect what product the image is
+- Program to fetch information about the brand's sustainable practices, ethical practcies, and the carbon footprint of the product (depending on your location, because it'll vary from wherever the product is purchased) 
