@@ -2,6 +2,10 @@ Idea: Capture an image of a tag or any identifying feature on a piece of clothin
 
 Key elements:
 
-- Mobile/web app to upload the image
-- Machine learning program to detect what product the image is
-- Program to fetch information about the brand's sustainable practices, ethical practcies, and the carbon footprint of the product (depending on your location, because it'll vary from wherever the product is purchased) 
+1. Mobile/web app to upload the image
+TECH: React Native and Expo
+SUMMARY: Mobile app that takes picture of tag and extracts information.
+
+2. Machine learning program to detect what product the image is
+TECH: Python script
+SUMMARY: Takes the information from the scanned tag and extracts the information
