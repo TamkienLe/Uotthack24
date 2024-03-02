@@ -6,6 +6,7 @@ MATERIALS = [
     "LEATHER", 
     "WOOL",
     "VISCOSE",
-    
+    "LINEN",
+    "ACRYLIC FABRIC"
 ]
 

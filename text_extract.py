@@ -64,18 +64,19 @@ def get_number(s):
 # Assumption is that at least CA and RN are seperated by whitespace, 
 # same with made in and country
 # country is one word
+# Split line by line
+
+# Split each line by whitespace
+
+# Check if string is a key, if it is then next item is value
+# Check if each key has value followed immediately after without whitespace for edge cases
+# Special case for 'Made In'
+# Need to check previous element for material -> different than manufacturer
 def extract_content(s):
-    materials = dict.fromkeys(constants.MATERIALS)
+    materials = dict.fromkeys(constants.MATERIALS, 0)
     rn = ca = -1
     location = ''
-    # Split line by line
-
-    # Split each line by whitespace
-
-    # Check if string is a key, if it is then next item is value
-    # Check if each key has value followed immediately after without whitespace for edge cases
-    # Special case for 'Made In'
-    # Need to check previous element for material -> different than manufacturer
+    
     
     for line in s.split('\n'):
         # Handle location case
@@ -90,8 +91,6 @@ def extract_content(s):
 
         for val in line.split():
             val = val.strip()
-
-            print(val)
 
             if "RN" in val.upper():
                 val = val.strip(gunk)
@@ -141,14 +140,15 @@ def extract_content(s):
             prevWasCAKey = False
             prev = val
 
+    ret = {
+        "location": location,
+        "RN": rn,
+        "CA": ca,
+        "materials": materials
+    }
+
+    return ret
 
 
-    print('Location is: ', location)
-    print("RN is: ", rn)
-    print("CA is: ", ca)
 
-    for key in materials.keys():
-        print(key, ": ", materials[key])
-
-
-extract_content(testcase2)
+# print(extract_content(testcase2))

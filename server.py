@@ -1,6 +1,10 @@
 from flask import Flask
 from flask import request
 from google.cloud import vision
+import constants
+import stringAlgs.text_extract as text_extract
+
+client = vision.ImageAnnotatorClient()
 
 app = Flask(__name__)
 client = vision.Client()
@@ -9,11 +13,9 @@ client = vision.Client()
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/test')
-def test():
-    return f'hello {request.args}'
 
-@app.route('/testpost', methods=['POST'])
-def testpost():
+
+@app.route('/visionText', methods=['POST'])
+def visionText():
     print(f'request: {request}')
     return f'hello {request.form}'
