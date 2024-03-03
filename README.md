@@ -11,6 +11,10 @@ my name is Samuel Braun, I love programming and romantic walks on the beach.
 1. Tell flask what the entrypoint is```export FLASK_APP=main.py```
 2. run the app (should work after setting up venv): ```flask run```
 
+
+## Flask Endpoint
+```/visionText``` POST endpoint for an image file. Image needs to be named 'image'
+
 ## String manipulation algorithms
 Need to manipulate strings to get important information out of clothing labels
 ## text_extract.py
