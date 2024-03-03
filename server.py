@@ -33,7 +33,11 @@ def visionText():
 
     print(item_data)
 
-    algo.algo(item_data)
+    test = [var1, var2, var3, var4, var5]
+
+    var1, var2, var3, var4, var5  = algo.algo(item_data)
+
+    print(test)
 
     # Create response for client
 
