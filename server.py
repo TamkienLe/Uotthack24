@@ -18,7 +18,7 @@ def visionText():
     # GUNK START
 
     # print("form: ", request.form)
-    content = request.form['image']
+    content = request.form['files']
     print('base64 content: ', content)
 
     content = base64.b64decode(content)
