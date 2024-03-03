@@ -47,7 +47,11 @@ def visionText():
 
     # Use cloud vision to get text
     response = client.text_detection(image=image)
+
+    print("response: ", response)
     texts = response.text_annotations
+
+    print("texts: ", texts)
 
     # 1st description from cloud vision looks like it's all of the text found
     item_data = text_extract.extract_content(texts[0].description)
