@@ -32,7 +32,7 @@ def visionText():
 
     print(item_data)
 
-    [materialFootprint, shippingFootpring, waterUsage, brandScore, finalScore] = algo.algo(item_data)
+    [materialFootprint, shippingFootpring, waterUsage, brandScore, finalScore, brandDescription] = algo.algo(item_data)
 
     print(f"Material Footprint: {materialFootprint}, Shipping Footprint: {shippingFootpring}, Water Usage: {waterUsage}, Brand Score: {brandScore}, Final Score: {finalScore}")
 
@@ -43,7 +43,8 @@ def visionText():
         "Shipping_Footpring": shippingFootpring,
         "Water_Usage": waterUsage,
         "Brand_Score": brandScore,
-        "Final_Score": finalScore
+        "Final_Score": finalScore,
+        "Brand_Description": brandDescription
     }
 
     return response

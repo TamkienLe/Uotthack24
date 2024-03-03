@@ -397,13 +397,18 @@ def algo(scan):
     footprint = round(material_footprint(makeup) + shipping_footprint(coa), 2)
     water = water_usage(makeup)
 
+    brand_description = ''
+
     if brand_score > 0:
-        print(f"{brand.title()}'s ethical manufacturing practice is rated {brand_score}/100")
+        brand_description = f"{brand.title()}'s ethical manufacturing practice is rated {brand_score}/100"
+        print(brand_description)
     elif brand_score == 0:
-        print(f"Your manufacturer is {brand}, however ethicality of {brand} can not be confirmed.")
+        brand_description = f"Your manufacturer is {brand}, however ethicality of {brand} can not be confirmed."
+        print(brand_description)
     else:
-        print(f"Manufacturer was not able to be detected.")
+        brand_description = f"Manufacturer was not able to be detected."
+        print(brand_description)
     if brand_score > 0:
-        return [material_footprint(makeup), shipping_footprint(coa), water, brand_score, final_score(footprint, water, brand_score)]
+        return [material_footprint(makeup), shipping_footprint(coa), water, brand_score, final_score(footprint, water, brand_score), brand_description]
     else:
-        return [material_footprint(makeup), shipping_footprint(coa), water, -1, final_score(footprint, water, brand_score)]
+        return [material_footprint(makeup), shipping_footprint(coa), water, -1, final_score(footprint, water, brand_score), brand_description]
