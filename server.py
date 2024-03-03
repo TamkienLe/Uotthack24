@@ -3,6 +3,7 @@ from flask import request
 from google.cloud import vision
 import text_extract as text_extract
 import algo
+import jsonify
 
 client = vision.ImageAnnotatorClient()
 
@@ -11,22 +12,38 @@ app = Flask(__name__)
 @app.route('/visionText', methods=['POST'])
 def visionText():
     print("test")
+
+
+    # GUNK START
+
+    if 'file' in request.files:
+        file = request.files['file']
+        content = file.read()
+        base64_data = base64.b64encode(content).decode('utf-8')
+        print(base64_data)
+        return jsonify({"status": "success", "message": "File processed"})
+
+    # If the base64 data is sent as a text field
+    elif 'data' in request.form:
+        base64_data = request.form['data']
+        print(base64_data)
+        return jsonify({"status": "success", "message": "Data processed"})
     
     print("Full Path:", request.full_path)
     print("URL:", request.url)
     print("Method:", request.method)
     print("Headers:\n", request.headers)
-    
+
+
+
+
     print(request.get_data(as_text=True, parse_form_data=True, cache=False))
 
+
+    # GUNK END
+
     # request.data
-
-
     content = request.files['image'].read()
-
-    print(request.files)
-
-    print(content)
 
     image = vision.Image(content=content)
 
