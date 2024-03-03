@@ -43,10 +43,11 @@ def visionText():
 
     image = vision.Image(content=content)
 
-    print("IMAGE", image)
-
     # Use cloud vision to get text
     response = client.text_detection(image=image)
+
+    print("IMAGE", response)
+    
     texts = response.text_annotations
 
     # 1st description from cloud vision looks like it's all of the text found
