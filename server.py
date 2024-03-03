@@ -33,10 +33,17 @@ def visionText():
 
     print(item_data)
 
-    test = algo.algo(item_data)
+    [materialFootprint, shippingFootpring, waterUsage, brandScore, finalScore] = algo.algo(item_data)
 
-    print(f"Material Footprint: {test[0]}, Shipping Footprint: {test[1]}, Water Usage: {test[2]}, Brand Score: {test[3]}, Final Score: {test[4]}")
+    print(f"Material Footprint: {materialFootprint}, Shipping Footprint: {shippingFootpring}, Water Usage: {waterUsage}, Brand Score: {brandScore}, Final Score: {finalScore}")
 
     # Create response for client
-
-    return item_data
+    response = {
+        "Material_Footprint": materialFootprint,
+        "Shipping_Footpring": shippingFootpring,
+        "Water_Usage": waterUsage,
+        "Brand_Score": brandScore,
+        "Final_Score": finalScore
+    }
+    
+    return response
