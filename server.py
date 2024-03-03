@@ -11,8 +11,6 @@ app = Flask(__name__)
 @app.route('/visionText', methods=['POST'])
 def visionText():
     print("test")
-
-    print("image: ", request.image)
     
     content = request.files['image'].read()
 
