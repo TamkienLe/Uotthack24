@@ -4,43 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# TODO:
-# make it so if a material tag says recycled, the scores are better
-# Stop from crashing if ca or rn are missing
 url = "https://ised-isde.canada.ca/app/cb/can/public/cmpnyDtls.json?cano="
-
-# ^ SCRAPE ABOVE LINK TO FIND MANUFACTURER
-
-info = """{
-    "location": "mexico",
-    "RN": 116442,
-    "CA": 59728,
-    "materials": {
-        "COTTON": 80, 
-        "POLYESTER": 20, 
-        "NYLON": 0,
-        "SILK": 0,
-        "WOOL": 0,
-        "LINEN": 0,
-        "ACRYLIC FABRIC": 0
-    }
-}"""
-
-# scan = json.loads(info)
-# scan = {
-#     "location": "mexico",
-#     "RN": 116442,
-#     "CA": 59728,
-#     "materials": {
-#         "COTTON": 80, 
-#         "POLYESTER": 20, 
-#         "NYLON": 0,
-#         "SILK": 0,
-#         "WOOL": 0,
-#         "LINEN": 0,
-#         "ACRYLIC FABRIC": 0
-#     }
-# }
 
 def algo(scan):
     # country of origin
@@ -110,22 +74,22 @@ def algo(scan):
         'Shein' : 29,
         'Uniqlo' : 59
     }
+    
+    if (scan["CA"] != -1):
+        page = requests.get(url + str(scan["CA"]))
 
-    # page = requests.get(url + str(scan["CA"]))
+        soup = BeautifulSoup(page.content, "html.parser")
 
-    # soup = BeautifulSoup(page.content, "html.parser")
+        results = soup.find("div", {"class": "col-sm-8"})
+        results = results.prettify().split("\n")[1]
+        brand = results.strip()
+        brand_score = 0
 
-    # results = soup.find("div", {"class": "col-sm-8"})
-    # results = results.prettify().split("\n")[1]
-    # brand = results[1:]
-    brand = 'test'
-    brand_score = 0
+        for k, v in rating.items():
+            if k.lower() in brand.lower(): brand_score = v
+    else: brand_score = -1
 
-    #for k, v in rating.items():
-     #   if k.lower() in brand.lower(): brand_score = v
-
-    makeup = {
-    }
+    makeup = {}
 
     if cotton != 0: makeup["cotton"] =  cotton
     if polyester != 0: makeup["polyester"] =  polyester
@@ -354,7 +318,7 @@ def algo(scan):
 
     def shipping_footprint(country):
         
-        country = country.lower()
+        country = country.strip().lower()
         
         lat1 = float(countries['canada'][0][:-1]) if countries['canada'][0][-1] == 'N' else float(countries['canada'][0][:-1]) * -1
         lat2 = float(countries[country][0][:-1]) if countries[country][0][-1] == 'N' else float(countries[country][0][:-1]) * -1
@@ -385,11 +349,58 @@ def algo(scan):
             
         return round(water_used, 2)
 
-    footprint = material_footprint(makeup) + shipping_footprint(coa)
+    def final_score(fp, wtr, bs):
+        final = 0
+        if bs > 0:
+            # there is a brand score
+            if wtr <= 500:
+                final += 34
+            elif wtr > 500 and wtr < 1200:
+                final += 20
+            elif wtr >= 1201:
+                final += 12
+            
+            if fp <= 5:
+                final += 33
+            elif fp < 10 and fp > 5:
+                final += 20
+            elif fp >= 10:
+                final += 12
+                
+            if bs >= 75:
+                final += 33
+            elif bs < 75 and bs > 62:
+                final += 22
+            elif bs < 62:
+                final += 18
+            
+        else:
+            # no brand score
+            if wtr <= 500:
+                final += 50
+            elif wtr > 500 and wtr < 1200:
+                final += 42
+            elif wtr >= 1201:
+                final += 32
+            
+            if fp <= 5:
+                final += 50
+            elif fp < 10 and fp > 5:
+                final += 42
+            elif fp >= 10:
+                final += 32
+        return final
+    
+    footprint = round(material_footprint(makeup) + shipping_footprint(coa), 2)
     water = water_usage(makeup)
 
-    print(f"Your brand's ethical manufacturing practice is rated {brand_score}/100")
-
-    print(f"Based on the material makeup of your garment it produced approximately {material_footprint(makeup)}kg of CO2, and used {water}L of water during production")
-    print(f"Based on your garment's country of origin (the country where it was manufactured) it produced {shipping_footprint(coa)}kg of CO2 during shipping.")
-    print(f"This means a total CO2 footprint of {footprint}kg.")
+    if brand_score != -1:
+        print(f"{brand.title()}'s ethical manufacturing practice is rated {brand_score}/100")
+    elif brand_score == 0:
+        print(f"Your manufacturer is {brand}, however ethicality of {brand} can not be confirmed.")
+    else:
+        print(f"Manufacturer was not able to be detected.")
+    if brand_score > 0:
+        return material_footprint(makeup), shipping_footprint(coa), water, brand_score, final_score
+    else:
+        return material_footprint(makeup), shipping_footprint(coa), water, -1, final_score
