@@ -35,7 +35,7 @@ def visionText():
 
     test = algo.algo(item_data)
 
-    print(test)
+    print(f"Material Footprint: {test[0]}, Shipping Footprint: {test[1]}, Water Usage: {test[2]}, Brand Score: {test[3]}, Final Score: {test[4]}")
 
     # Create response for client
 
