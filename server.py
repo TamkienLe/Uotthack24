@@ -12,9 +12,8 @@ app = Flask(__name__)
 def visionText():
     print("test")
 
-    print(request)
-    for key in request.keys():
-        print(key)
+    print(request.files)
+    
     content = request.files['image'].read()
     image = vision.Image(content=content)
 
