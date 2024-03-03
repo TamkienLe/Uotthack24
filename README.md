@@ -5,7 +5,8 @@ my name is Samuel Braun, I love programming and romantic walks on the beach.
 ### Setup python venv and install flask
 1. Create python virtual environment ```python3 -m venv .venv```
 2. Activate virtual environment every time you open a new terminal session: ```. .venv/bin/activate```
-3. Instsall flask: ```pip install flask```
+3. Install flask: ```pip install flask```
+4. Install gcp
 
 ### Running:
 1. Tell flask what the entrypoint is```export FLASK_APP=server.py```

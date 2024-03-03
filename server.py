@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 @app.route('/visionText', methods=['POST'])
 def visionText():
+    print("test")
     content = request.files['image'].read()
     image = vision.Image(content=content)
 
