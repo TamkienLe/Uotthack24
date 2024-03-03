@@ -1,4 +1,4 @@
-import math
+from math import cos, asin, sqrt, pi
 import json
 import requests
 from bs4 import BeautifulSoup
@@ -325,8 +325,11 @@ def algo(scan):
         lon1 = float(countries['canada'][1][:-1]) if countries['canada'][1][-1] == 'E' else float(countries['canada'][1][:-1]) * -1
         lon2 = float(countries[country][1][:-1]) if countries[country][1][-1] == 'E' else float(countries[country][1][:-1]) * -1
         
-        dist = round(math.acos((math.sin(lat1) * math.sin(lat2)) + (math.cos(lat1) * math.cos(lat2) * math.cos(lon2-lon1))) * 6371, 2)
+        r = 6371 # km
+        p = pi / 180
 
+        a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p) * cos(lat2*p) * (1-cos((lon2-lon1)*p))/2
+        dist = 2 * r * asin(sqrt(a))
         
         return round((dist / 800) * 0.6, 2)
 
