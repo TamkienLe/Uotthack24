@@ -13,6 +13,8 @@ def visionText():
     print("test")
 
     print(request)
+    for key in request.keys():
+        print(key)
     content = request.files['image'].read()
     image = vision.Image(content=content)
 
