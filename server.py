@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from google.cloud import vision
 import text_extract as text_extract
+import algo
 
 client = vision.ImageAnnotatorClient()
 
@@ -21,7 +22,9 @@ def visionText():
 
     print(item_data)
 
-    # Do Saad algo to come up  with carbon footprint
+    algo.algo(item_data)
+
+    # print(f"Your brand's ethical manufacturing practice is rated {algo.brand_score}/100")
     pass
 
     # Create response for client
