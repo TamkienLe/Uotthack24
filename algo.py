@@ -116,7 +116,7 @@ def algo(scan):
     soup = BeautifulSoup(page.content, "html.parser")
 
     results = soup.find("div", {"class": "col-sm-8"})
-    results = results.prettify().split("\n")[1]
+    # results = results.prettify().split("\n")[1]
     brand = results[1:]
     brand_score = 0
 
