@@ -1,14 +1,123 @@
 import math
+import json
+import requests
+from bs4 import BeautifulSoup
+
 
 # TODO:
 # make it so if a material tag says recycled, the scores are better
 
-brand = "zara"
+url = "https://ised-isde.canada.ca/app/cb/can/public/cmpnyDtls.json?cano="
+
+# ^ SCRAPE ABOVE LINK TO FIND MANUFACTURER
+
+info = """{
+    "location": "mexico",
+    "RN": 116442,
+    "CA": 59728,
+    "materials": {
+        "COTTON": 80, 
+        "POLYESTER": 20, 
+        "NYLON": 0,
+        "SILK": 0,
+        "WOOL": 0,
+        "LINEN": 0,
+        "ACRYLIC FABRIC": 0
+    }
+}"""
+
+scan = json.loads(info)
+
+# country of origin
+coa = scan["location"]
+
+cotton = scan["materials"]["COTTON"]
+polyester = scan["materials"]["POLYESTER"]
+nylon = scan["materials"]["NYLON"]
+silk = scan["materials"]["SILK"]
+wool = scan["materials"]["WOOL"]
+linen = scan["materials"]["LINEN"]
+fabric = scan["materials"]["ACRYLIC FABRIC"]
+
+rating = {
+    'Finisterre' : 99,
+    'People Tree' : 99,
+    'School Uniform Shop' : 93,
+    'Seasalt' : 80,
+    'Patagonia' : 79,
+    'Fat Face' : 77,
+    'Whistles' : 73,
+    'Monsoon Accessorize' : 70,
+    'Phase Eight' : 70,
+    'ASOS' : 67,
+    'Crew Clothing' : 67,
+    'Evans' : 67,
+    'Miss Selfridge' : 67,
+    'Topman' : 67,
+    'Topshop' : 67,
+    'French Connection' : 60,
+    'New Look' : 60,
+    'River Island' : 60,
+    'Bershka' : 53,
+    'Gap' : 53,
+    'Joules' : 53,
+    'Marks & Spencer' : 53,
+    'Next' : 53,
+    'Pull&Bear' : 53,
+    'Stradivarius' : 53,
+    'The North Face' : 53,
+    'White Stuff' : 53,
+    'Zara' : 53,
+    'Fila' : 50,
+    'Mango' : 50,
+    '& Other Stories' : 48,
+    'H&M' : 48,
+    'Monki' : 48,
+    'F&F at Tesco' : 47,
+    'Primark' : 47,
+    'Tommy Hilfiger' : 47,
+    'Tu at Sainsburys' : 47,
+    'adidas' : 41,
+    'Matalan' : 38,
+    'Boohoo' : 37,
+    'Burton' : 37,
+    'Coast' : 37,
+    'Dorothy Perkins' : 37,
+    'Nasty Gal' : 37,
+    'Nike' : 37,
+    'Oasis' : 37,
+    'Pretty Little Thing' : 37,
+    'Wallis' : 37,
+    'Warehouse' : 37,
+    'George at Asda' : 32,
+    'I Saw It First' : 30,
+    'Missguided' : 30,
+    'Shein' : 29,
+    'Uniqlo' : 59
+}
+
+page = requests.get(url + str(scan["CA"]))
+
+soup = BeautifulSoup(page.content, "html.parser")
+
+results = soup.find("div", {"class": "col-sm-8"})
+results = results.prettify().split("\n")[1]
+brand = results[1:]
+brand_score = 0
+
+for k, v in rating.items():
+    if k.lower() in brand.lower(): brand_score = v
 
 makeup = {
-    "cotton" : 70,
-    "polyester" : 30
 }
+
+if cotton != 0: makeup["cotton"] =  cotton
+if polyester != 0: makeup["polyester"] =  polyester
+if nylon != 0: makeup["nylon"] =  nylon
+if silk != 0: makeup["silk"] =  silk
+if wool != 0: makeup["wool"] =  wool
+if linen != 0: makeup["linen"] =  linen
+if fabric != 0: makeup["fabric"] =  fabric
 
 # contains latitude and longitude of all countries to
 countries = {
@@ -208,9 +317,6 @@ countries = {
     'zimbabwe' : ['17.43S','31.02']
 }
 
-# country of origin
-coa = "mexico"
-
 def material_footprint(materials):
     # outputted as kilograms of CO2 outputted per 2 square meters of raw material created
     footprint = {
@@ -266,4 +372,8 @@ def water_usage(materials):
 footprint = material_footprint(makeup) + shipping_footprint(coa)
 water = water_usage(makeup)
 
-print(water_usage(makeup))
+print(f"Your brand's ethical manufacturing practice is rated {brand_score}/100")
+
+#print(f"Based on the material makeup of your garment it produced approximately {material_footprint(makeup)}kg of CO2, and used {water}L of water during production")
+#print(f"Based on your garment's country of origin (the country where it was manufactured) it produced {shipping_footprint(coa)}kg of CO2 during shipping.")
+#print(f"This means a total CO2 footprint of {footprint}kg.")
