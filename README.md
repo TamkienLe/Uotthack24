@@ -14,7 +14,17 @@ my name is Samuel Braun, I love programming and romantic walks on the beach.
 
 
 ## Flask Endpoint
-```/visionText``` POST endpoint for an image file. Image needs to be named 'image'
+```/visionText``` POST endpoint for an image file. Image needs to be named 'image'. Success response:
+```json
+ {
+            "Success": True,
+            "Material_Footprint": materialFootprint,
+            "Shipping_Footpring": shippingFootpring,
+            "Water_Usage": waterUsage,
+            "Brand_Score": brandScore,
+            "Final_Score": finalScore
+        }
+```
 
 ## String manipulation algorithms
 Need to manipulate strings to get important information out of clothing labels
@@ -38,3 +48,4 @@ Takes string input and produces an output that looks like this based on what cou
     }
 }
 ```
+
