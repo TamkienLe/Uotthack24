@@ -4,6 +4,7 @@ from google.cloud import vision
 import text_extract as text_extract
 import algo
 import jsonify
+import base64
 
 client = vision.ImageAnnotatorClient()
 
@@ -19,6 +20,10 @@ def visionText():
     # print("form: ", request.form)
     content = request.form['image']
     print('base64 content: ', content)
+
+    content = base64.b64decode(content)
+
+    print('bytes content: ', content)
     
     # print("Full Path:", request.full_path)
     # print("URL:", request.url)
