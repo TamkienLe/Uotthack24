@@ -16,25 +16,25 @@ def visionText():
 
     # GUNK START
 
-    print("form: ", request.form)
-    base64_data = request.form['image']
-    print(base64_data)
+    # print("form: ", request.form)
+    content = request.form['image']
+    # print(base64_data)
     
-    print("Full Path:", request.full_path)
-    print("URL:", request.url)
-    print("Method:", request.method)
-    print("Headers:\n", request.headers)
+    # print("Full Path:", request.full_path)
+    # print("URL:", request.url)
+    # print("Method:", request.method)
+    # print("Headers:\n", request.headers)
 
 
 
 
-    print(request.get_data(as_text=True, parse_form_data=True, cache=False))
+    # print(request.get_data(as_text=True, parse_form_data=True, cache=False))
 
 
     # GUNK END
 
     # request.data
-    content = request.files['image'].read()
+    # content = request.files['image'].read()
 
     image = vision.Image(content=content)
 
