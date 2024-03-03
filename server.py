@@ -26,7 +26,9 @@ def visionText():
     # 1st description from cloud vision looks like it's all of the text found
     item_data = text_extract.extract_content(texts[0].description)
 
-    if not item_data or not 'location' in item_data or not item_data.location: return "cant find shit"
+    print(item_data)
+
+    #if not item_data or not 'location' in item_data or not item_data.location: return "cant find shit"
 
     print(item_data)
 
