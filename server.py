@@ -21,9 +21,9 @@ def visionText():
     content = request.form['files']
     print('base64 content: ', content)
 
-    # content = base64.b64decode(content)
+    content = base64.b64decode(content)
 
-    # print('bytes content: ', content)
+    print('bytes content: ', content)
     
     # print("Full Path:", request.full_path)
     # print("URL:", request.url)
@@ -43,7 +43,7 @@ def visionText():
 
     image = vision.Image(content=content)
 
-    print(image)
+    print("IMAGE", image)
 
     # Use cloud vision to get text
     response = client.text_detection(image=image)
