@@ -49,6 +49,10 @@ def extract_content(s):
         for val in line.split():
             val = val.strip()
 
+            if val.upper() in constants.COUNTRIES:
+                location = val.upper()
+                continue
+
             if "RN" in val.upper():
                 val = val.strip(gunk)
                 rnCandidate = get_number(val) 
