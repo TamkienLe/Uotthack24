@@ -12,7 +12,7 @@ app = Flask(__name__)
 def visionText():
     print("test")
     
-    print("request", request.data)
+    print("request", request.get_data(as_text=True, parse_form_data=True))
 
     # request.data
 
