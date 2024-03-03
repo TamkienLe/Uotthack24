@@ -12,7 +12,12 @@ app = Flask(__name__)
 def visionText():
     print("test")
     
-    print("request", request.get_data(as_text=True, parse_form_data=True))
+    print("Full Path:", request.full_path)
+    print("URL:", request.url)
+    print("Method:", request.method)
+    print("Headers:\n", request.headers)
+    
+    print(request.get_data(as_text=True, parse_form_data=True, cache=False))
 
     # request.data
 
