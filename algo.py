@@ -401,6 +401,6 @@ def algo(scan):
     else:
         print(f"Manufacturer was not able to be detected.")
     if brand_score > 0:
-        return material_footprint(makeup), shipping_footprint(coa), water, brand_score, final_score
+        return [material_footprint(makeup), shipping_footprint(coa), water, brand_score, final_score]
     else:
-        return material_footprint(makeup), shipping_footprint(coa), water, -1, final_score
+        return [material_footprint(makeup), shipping_footprint(coa), water, -1, final_score]
