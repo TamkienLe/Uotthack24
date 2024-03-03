@@ -12,7 +12,9 @@ app = Flask(__name__)
 def visionText():
     print("test")
     
-    print("request", request)
+    print("request", request.data)
+
+    # request.data
 
 
     content = request.files['image'].read()
