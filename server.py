@@ -16,18 +16,9 @@ def visionText():
 
     # GUNK START
 
-    if 'file' in request.files:
-        file = request.files['file']
-        content = file.read()
-        base64_data = base64.b64encode(content).decode('utf-8')
-        print(base64_data)
-        return jsonify({"status": "success", "message": "File processed"})
-
-    # If the base64 data is sent as a text field
-    elif 'data' in request.form:
-        base64_data = request.form['data']
-        print(base64_data)
-        return jsonify({"status": "success", "message": "Data processed"})
+    print("form: ", request.form)
+    base64_data = request.form['image']
+    print(base64_data)
     
     print("Full Path:", request.full_path)
     print("URL:", request.url)
