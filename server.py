@@ -18,7 +18,7 @@ def visionText():
 
     # print("form: ", request.form)
     content = request.form['image']
-    # print(base64_data)
+    print('base64 content: ', content)
     
     # print("Full Path:", request.full_path)
     # print("URL:", request.url)
