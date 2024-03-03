@@ -18,10 +18,10 @@ def visionText():
     # GUNK START
 
     # print("form: ", request.form)
-    content = request.form['files']
-    print('base64 content: ', content)
+    b64image = request.form['files']
+    print('base64 content: ', b64image)
 
-    content = base64.b64decode(content)
+    content = base64.b64decode(b64image)
 
     print('bytes content: ', content)
     
@@ -45,9 +45,6 @@ def visionText():
 
     # Use cloud vision to get text
     response = client.text_detection(image=image)
-
-    print("IMAGE", response)
-
     texts = response.text_annotations
 
     # 1st description from cloud vision looks like it's all of the text found
