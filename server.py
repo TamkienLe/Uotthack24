@@ -24,6 +24,7 @@ def visionText():
     texts = response.text_annotations
 
     # 1st description from cloud vision looks like it's all of the text found
+    print("all text", texts[0].description)
     item_data = text_extract.extract_content(texts[0].description)
 
     print(item_data)
