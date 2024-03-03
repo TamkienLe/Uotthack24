@@ -1,6 +1,6 @@
 from google.cloud import vision
 import constants
-import stringAlgs.text_extract as text_extract
+import text_extract as text_extract
 
 client = vision.ImageAnnotatorClient()
 

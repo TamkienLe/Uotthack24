@@ -151,4 +151,4 @@ def extract_content(s):
 
 
 
-# print(extract_content(testcase2))
+print(extract_content(testcase))
