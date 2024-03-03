@@ -12,12 +12,12 @@ app = Flask(__name__)
 def visionText():
     print("test")
 
-    print(request.files)
+    print("image: ", request.image)
     
     content = request.files['image'].read()
 
     print(content)
-    
+
     image = vision.Image(content=content)
 
     # Use cloud vision to get text
