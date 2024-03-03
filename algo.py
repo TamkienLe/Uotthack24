@@ -397,7 +397,7 @@ def algo(scan):
     footprint = round(material_footprint(makeup) + shipping_footprint(coa), 2)
     water = water_usage(makeup)
 
-    if brand_score != -1:
+    if brand_score > 0:
         print(f"{brand.title()}'s ethical manufacturing practice is rated {brand_score}/100")
     elif brand_score == 0:
         print(f"Your manufacturer is {brand}, however ethicality of {brand} can not be confirmed.")
