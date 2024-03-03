@@ -39,12 +39,12 @@ def visionText():
     # Create response for client
     response = {
         "Success": True,
-        "Material_Footprint": materialFootprint,
-        "Shipping_Footpring": shippingFootpring,
-        "Water_Usage": waterUsage,
-        "Brand_Score": brandScore,
         "Final_Score": finalScore,
-        "Brand_Description": brandDescription
+        "Material_Footprint": materialFootprint,
+        "Shipping_Footprint": shippingFootpring,
+        "Water_Usage": waterUsage,
+        "Brand_Description": brandDescription,
+        "Brand_Score": brandScore,
     }
 
     return response
