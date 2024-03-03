@@ -1,0 +1,1 @@
+gcloud compute ssh --project=hackthon2-416018 --zone=us-central1-a instance-20240303-004243

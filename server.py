@@ -1,16 +1,11 @@
 from flask import Flask
 from flask import request
 from google.cloud import vision
-import constants
 import text_extract as text_extract
 
 client = vision.ImageAnnotatorClient()
 
 app = Flask(__name__)
-
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
 
 @app.route('/visionText', methods=['POST'])
 def visionText():
