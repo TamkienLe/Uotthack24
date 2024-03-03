@@ -14,6 +14,8 @@ def visionText():
     
     content = request.files['image'].read()
 
+    print(request.files)
+
     print(content)
 
     image = vision.Image(content=content)
