@@ -15,6 +15,9 @@ def visionText():
     print(request.files)
     
     content = request.files['image'].read()
+
+    print(content)
+    
     image = vision.Image(content=content)
 
     # Use cloud vision to get text
