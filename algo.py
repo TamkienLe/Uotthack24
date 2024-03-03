@@ -111,17 +111,18 @@ def algo(scan):
         'Uniqlo' : 59
     }
 
-    page = requests.get(url + str(scan["CA"]))
+    # page = requests.get(url + str(scan["CA"]))
 
-    soup = BeautifulSoup(page.content, "html.parser")
+    # soup = BeautifulSoup(page.content, "html.parser")
 
-    results = soup.find("div", {"class": "col-sm-8"})
+    # results = soup.find("div", {"class": "col-sm-8"})
     # results = results.prettify().split("\n")[1]
-    brand = results[1:]
+    # brand = results[1:]
+    brand = 'test'
     brand_score = 0
 
-    for k, v in rating.items():
-        if k.lower() in brand.lower(): brand_score = v
+    #for k, v in rating.items():
+     #   if k.lower() in brand.lower(): brand_score = v
 
     makeup = {
     }
