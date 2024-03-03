@@ -8,7 +8,7 @@ my name is Samuel Braun, I love programming and romantic walks on the beach.
 3. Instsall flask: ```pip install flask```
 
 ### Running:
-1. Tell flask what the entrypoint is```export FLASK_APP=main.py```
+1. Tell flask what the entrypoint is```export FLASK_APP=server.py```
 2. run the app (should work after setting up venv): ```flask run```
 
 
