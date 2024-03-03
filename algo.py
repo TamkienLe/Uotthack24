@@ -328,7 +328,7 @@ def algo(scan):
         dist = round(math.acos((math.sin(lat1) * math.sin(lat2)) + (math.cos(lat1) * math.cos(lat2) * math.cos(lon2-lon1))) * 6371, 2)
 
         
-        return round((dist/800) * 0.6, 2)
+        return round((dist / 480), 2)
 
     def water_usage(materials):
         # for one average tshirt (L of water)
