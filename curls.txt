@@ -1,0 +1,8 @@
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "image=@<path>" http://127.0.0.1:8000/visionText
+
+
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "image=@<path>" http://34.27.55.255:8000/visionText
+
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "image=@IMG_2358.jpg" http://34.27.55.255:8000/visionText
+
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "image=@IMG_2358.jpg" http://10.128.0.2:8000/visionText
