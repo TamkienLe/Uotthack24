@@ -1,114 +1,11 @@
-// import React, { useState, useEffect } from 'react';
-// import { Button, Text, View, ActivityIndicator, Platform, StyleSheet } from 'react-native';
-// import { Camera } from 'expo-camera';
-
-// const App = () => {
-//   const [hasPermission, setHasPermission] = useState(null);
-//   const [cameraRef, setCameraRef] = useState(null);
-//   const [isLoading, setIsLoading] = useState(false); // State to manage loading indicator
-//   const [showCamera, setShowCamera] = useState(false); // State to show or hide the camera
-
-//   useEffect(() => {
-//     (async () => {
-//       const { status } = await Camera.requestCameraPermissionsAsync();
-//       setHasPermission(status === 'granted');
-//     })();
-//   }, []);
-
-//     const takePicture = async () => {
-//     if (cameraRef) {
-//       const options = { base64: true };
-//       const data = await cameraRef.takePictureAsync(options);
-//       setIsLoading(true); // Show loading immediately after taking the photo
-//       const formData = new FormData();      
-//       const imageBase64 = data.base64;
-  
-//       console.log('data', imageBase64);
-//       formData.append('files', imageBase64);
-
-//       let res = await fetch(
-//         'http://35.208.147.99:80/visionText',
-//         {
-//           method: 'POST',
-//           body: formData,
-//           headers: {
-//             'Content-Type': 'multipart/form-data;',
-//           },
-//         }
-//       );
-//       console.log('res', res);
-//       setIsLoading(false);
-//     }
-//   };
-
-//   if (hasPermission === null) {
-//     return <View />;
-//   }
-//   if (hasPermission === false) {
-//     return <Text>No access to camera</Text>;
-//   }
-
-//   if (isLoading) {
-//     return (
-//       <View style={styles.centeredView}>
-//         <ActivityIndicator size="large" />
-//         <Text>Loading...</Text>
-//       </View>
-//     );
-//   }
-
-//   // Camera view
-//   if (showCamera) {
-//     return (
-//       <Camera
-//         style={{ flex: 1 }}
-//         type={Camera.Constants.Type.back}
-//         autoFocus={Camera.Constants.AutoFocus.on}
-//         ref={ref => setCameraRef(ref)}
-//       >
-//         <View style={styles.cameraView}>
-//           <Button title="Take Picture" onPress={takePicture} />
-//         </View>
-//       </Camera>
-//     );
-//   }
-
-//   // Initial screen with button to open camera
-//   return (
-//     <View style={styles.centeredView}>
-//       <Button
-//         title="Open Camera"
-//         onPress={() => setShowCamera(true)}
-//       />
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   centeredView: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   cameraView: {
-//     flex: 1,
-//     backgroundColor: 'transparent',
-//     flexDirection: 'row',
-//     justifyContent: 'center',
-//     // alignItems: 'center',
-//     margin: 20,
-//   },
-// });
-
-// export default App;
-
 import React, { useState, useEffect } from 'react';
-import { Button, Text, View, ActivityIndicator, StyleSheet } from 'react-native';
+import { Image, Text, View, ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 const App = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [responseData, setResponseData] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -125,12 +22,12 @@ const App = () => {
       base64: true,
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setIsLoading(true);
       const formData = new FormData();
       const imageBase64 = result.assets[0].base64;
 
-      console.log(result.assets[0].base64);
+      // console.log(result.assets[0].base64);
       formData.append('files', imageBase64);
 
       let res = await fetch(
@@ -143,11 +40,38 @@ const App = () => {
           },
         }
       );
-      console.log('res', res);
-      setIsLoading(false);
-    }
 
+      res.json().then((data) => {
+        setResponseData(data);
+        // console.log(res.json());
+      }).finally(() => {
+        setIsLoading(false);
+      });
     }
+  }
+
+  // Function to format and display the data
+  const formatData = (data) => {
+  let displayData = data['Brand_Description'] ? data['Brand_Description'] + '\n\n' : ''; // Include 'Brand_Description' if it exists
+
+  // Iterate over the data and include only positive values, except for 'Brand_Description'
+    Object.keys(data).forEach(key => {
+    if (key !== 'Brand_Description' && data[key] > 0 && data[key] != true) {
+      if (key == "Total_Score") {
+        displayData += `${key.replace(/_/g, ' ')}: ${data[key]}\n\n`;
+      } else if (key == "Material_Footprint" || key == "Shipping_Footprint") {
+        displayData += `${key.replace(/_/g, ' ')}: ${data[key]}kg of CO2\n`;
+      } else if (key == "Water_Usage") {
+        displayData += `${key.replace(/_/g, ' ')}: ${data[key]}L\n`;
+      } else if (key != "Brand_Score") {
+        displayData += `${key.replace(/_/g, ' ')}: ${data[key]}L\n`;
+      } else {
+        displayData += `${key.replace(/_/g, ' ')}: ${data[key]}\n`;
+      }
+    }
+  })
+  return displayData.trim(); // Remove last newline character
+}
 
   if (hasPermission === null) {
     return <View />;
@@ -159,20 +83,30 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredView}>
+      <View style={styles.loadingCenter}>
         <ActivityIndicator size="large" />
-        <Text>Loading...</Text>
+        <Text style={styles.loadingText}>Loading...</Text>
       </View>
     );
   }
 
   // Initial screen with button to open camera
-  return (
+return (
     <View style={styles.centeredView}>
-      <Button
-        title="Take a Picture"
-        onPress={takePicture}
-      />
+      <Text style={styles.sustainTitle}> sustain.</Text>
+      <TouchableOpacity onPress={takePicture}>
+        <Image
+          source={require('./assets/croppedNoBG.png')}
+          style={styles.buttonImage}
+        />
+      </TouchableOpacity>
+      <Text style={styles.sustainTopText}> sustaining the environment</Text>
+      <Text style={styles.sustainBottomText}> through everyday wear</Text>
+      {responseData && (
+        <Text style={styles.dataText}>
+          {formatData(responseData)}
+        </Text>
+      )}
     </View>
   );
 };
@@ -182,6 +116,42 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#063923',
+  },
+  buttonImage: {
+    width: 150,
+    height: 150
+  },
+  loadingCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#063923',
+    color: '#94B84A',
+  },
+  loadingText: {
+    fontSize: 36,
+    color: '#94B84A',
+  },
+  sustainTitle: {
+    fontSize: 36,
+    color: '#94B84A',
+    paddingBottom: 24
+  },
+  sustainTopText: {
+    fontSize: 24,
+    color: '#94B84A',
+    paddingTop: 24
+  },
+  sustainBottomText: {
+    fontSize: 24,
+    color: '#94B84A',
+  },
+  dataText: {
+    marginTop: 20,
+    textAlign: 'center',
+    color: '#94B84A',
+    width: '100%', // Ensure the text aligns left and spans the full width
   },
 });
 
